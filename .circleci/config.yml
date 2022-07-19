@@ -33,7 +33,7 @@ fetch_data: &fetch_data
 jobs:
   section_07_test_app:
     <<: *defaults
-    working_directory: ~/project/api/house-prices-api
+    working_directory: ~/project/api/house-price-api
     steps:
       - checkout:
           path: ~/project
@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Deploy to Heroku
           command: |
-            git subtree push --prefix api/house-prices-api https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+            git subtree push --prefix api/house-price-api https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
   section_07_test_and_upload_regression_model:
     <<: *defaults
