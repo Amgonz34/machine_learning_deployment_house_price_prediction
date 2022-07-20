@@ -18,12 +18,6 @@ prepare_tox: &prepare_tox
     command: |
       sudo pip install --upgrade pip
       pip install --user tox
-prepare_kaggle: &prepare_kaggle
-  run:
-    name: Install kaggle
-    command: |
-      sudo pip install --upgrade pip
-      pip install --user kaggle
 fetch_data: &fetch_data
   run:
     name: Set script permissions and fetch data
