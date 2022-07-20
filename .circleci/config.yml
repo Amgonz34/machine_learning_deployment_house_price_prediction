@@ -270,9 +270,7 @@ workflows:
                 - main
       # upload after git tags are created
       - section_07_test_and_upload_regression_model:
-          # <<: *tags_only
-        requires:
-          - section_07_test_app
+          <<: *tags_only
 
 #  test-all:
 #    jobs:
