@@ -59,7 +59,6 @@ jobs:
       - checkout:
           path: ~/project
       - *prepare_tox
-      - *prepare_kaggle
       - run:
           name: Fetch the data
           command: |
@@ -271,7 +270,9 @@ workflows:
                 - main
       # upload after git tags are created
       - section_07_test_and_upload_regression_model:
-          <<: *tags_only
+          # <<: *tags_only
+        requires:
+          - section_07_test_app
 
 #  test-all:
 #    jobs:
