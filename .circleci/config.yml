@@ -66,28 +66,28 @@ jobs:
           command: |
             tox -e publish_model
 
-    section_08_deploy_app_container_in_heroku:
-      <<: *defaults
-      steps:
-        - setup_remote_docker:
-            # Supported versions: https://circleci.com/docs/2.0/building-docker-images/#docker-version
-            version: 20.10.6
-        - checkout:
-            path: ~/project
-        - run:
-            name: Build image
-            command: |
-              sudo curl https://cli-assets.heroku.com/install.sh | sh
-              cd make build-ml-api-heroku
-        - run:
-            name: Push Image to Heroku
-            command: |
-              # Push the built container to the Heroku image registry
-              cd make push-ml-api-heroku
-        - run:
-            name: Release to Heroku
-            command: |
-              cd make release-heroku
+  section_08_deploy_app_container_in_heroku:
+    <<: *defaults
+    steps:
+      - setup_remote_docker:
+          # Supported versions: https://circleci.com/docs/2.0/building-docker-images/#docker-version
+          version: 20.10.6
+      - checkout:
+          path: ~/project
+      - run:
+          name: Build image
+          command: |
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            cd make build-ml-api-heroku
+      - run:
+          name: Push Image to Heroku
+          command: |
+            # Push the built container to the Heroku image registry
+            cd make push-ml-api-heroku
+      - run:
+          name: Release to Heroku
+          command: |
+            cd make release-heroku
 
   test_regression_model_py36:
     docker:
