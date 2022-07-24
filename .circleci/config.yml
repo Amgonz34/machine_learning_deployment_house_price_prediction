@@ -174,7 +174,7 @@ workflows:
   section_07:
     jobs:
       - test_app
-      - test_regression
+      - test_regression_model
       - section_07_deploy_app_to_heroku:
           requires:
             - test_app
