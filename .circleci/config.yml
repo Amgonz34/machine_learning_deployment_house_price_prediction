@@ -87,48 +87,30 @@ jobs:
           command: |
             tox -e publish_model
 
-  section_08_deploy_app_container_in_heroku:
-    <<: *defaults
-    steps:
-      - setup_remote_docker:
-          # Supported versions: https://circleci.com/docs/2.0/building-docker-images/#docker-version
-          version: 20.10.6
-      - checkout:
-          path: ~/project
-      - run:
-          name: Build image
-          command: |
-            sudo curl https://cli-assets.heroku.com/install.sh | sh
-            make build-ml-api-heroku
-      - run:
-          name: Push Image to Heroku
-          command: |
-            # Push the built container to the Heroku image registry
-            make push-ml-api-heroku
-      - run:
-          name: Release to Heroku
-          command: |
-            make release-heroku
+#  deploy_app_container_in_heroku:
+#    <<: *defaults
+#    steps:
+#      - setup_remote_docker:
+#          # Supported versions: https://circleci.com/docs/2.0/building-docker-images/#docker-version
+#          version: 20.10.6
+#      - checkout:
+#          path: ~/project
+#      - run:
+#          name: Build image
+#          command: |
+#            sudo curl https://cli-assets.heroku.com/install.sh | sh
+#            make build-ml-api-heroku
+#      - run:
+#          name: Push Image to Heroku
+#          command: |
+#            # Push the built container to the Heroku image registry
+#            make push-ml-api-heroku
+#      - run:
+#          name: Release to Heroku
+#          command: |
+#            make release-heroku
 
-  section_9_differential_tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - *prepare_venv
-      - run:
-          name: Capturing previous model predictions
-          command: |
-            . venv/bin/activate
-            pip install -r packages/ml_api/diff_test_requirements.txt
-            PYTHONPATH=./packages/ml_api python3 packages/ml_api/tests/capture_model_predictions.py
-      - run:
-          name: Runnning differential tests
-          command: |
-            . venv/bin/activate
-            pip install -r packages/ml_api/requirements.txt
-            py.test -vv packages/ml_api/tests -m differential
-
-  section_11_build_and_push_to_heroku_docker:
+  build_and_push_to_heroku_docker:
     <<: *defaults
     steps:
       - checkout
@@ -175,7 +157,7 @@ workflows:
     jobs:
       - test_app
       - test_regression_model
-      - section_07_deploy_app_to_heroku:
+      - build_and_push_to_heroku_docker:
           requires:
             - test_app
           filters:
@@ -185,11 +167,11 @@ workflows:
       # upload after git tags are created
       - test_and_upload_regression_model:
           <<: *tags_only
-      - section_08_deploy_app_container_in_heroku:
-          filters:
-            branches:
-              only:
-                - main
+#      - section_08_deploy_app_container_in_heroku:
+#          filters:
+#            branches:
+#              only:
+#                - main
 
 
 #  test-all:
