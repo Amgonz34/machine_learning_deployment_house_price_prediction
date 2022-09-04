@@ -17,7 +17,7 @@ RUN chown -R ml-api-user:ml-api-user ./
 
 USER ml-api-user
 
-EXPOSE 5000
+EXPOSE 8000
 # 8001
 
 CMD ["bash", "./run.sh"]
